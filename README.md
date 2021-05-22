@@ -17,6 +17,8 @@ You don't have to use it like this. However, I'm trying to use it as well as pos
 - Composer
 - Xdebug
 - PHP_CodeSniffer
+- PHPStan
+- PHP CS Fixer
 - IDE : PHPStorm
 
 ## Reference Site
