@@ -17,7 +17,7 @@ use Illuminate\Support\Carbon;
  * @property int $user_id
  * @property string $title 제목
  * @property string $contents 내용
- * @property int $is_public 공개글 여부
+ * @property bool $is_public 공개글 여부
  * @property int $views 조회수
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -59,6 +59,11 @@ class Post extends Model
     protected $attributes = [
         'is_public' => true,
         'views' => 0,
+    ];
+
+    protected $casts = [
+        'is_public' => 'boolean',
+        'views' => 'integer',
     ];
 
     public function user(): BelongsTo
