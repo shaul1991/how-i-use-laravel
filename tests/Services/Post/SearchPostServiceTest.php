@@ -17,7 +17,7 @@ class SearchPostServiceTest extends TestCase
      * @test
      * @dataProvider allProviderData
      */
-    public function can_view_all_posts(int $postCount): void
+    public function can_get_all_posts(int $postCount): void
     {
         Post::factory()->count($postCount)->create();
 
@@ -58,7 +58,7 @@ class SearchPostServiceTest extends TestCase
      * @test
      * @dataProvider isPublicPostProviderData
      */
-    public function can_view_all_published_posts(int $actual, int $expect): void
+    public function can_get_all_published_posts(int $actual, int $expect): void
     {
         Post::factory()->count(random_int(0, 10))->create(['is_public' => false]);
         Post::factory()->count($actual)->create(['is_public' => true]);
@@ -106,7 +106,7 @@ class SearchPostServiceTest extends TestCase
      * @test
      * @dataProvider isPrivatePostProviderData
      */
-    public function can_view_all_private_posts(int $actual, int $expect): void
+    public function can_get_all_private_posts(int $actual, int $expect): void
     {
         Post::factory()->count(random_int(0, 10))->create(['is_public' => true]);
         Post::factory()->count($actual)->create(['is_public' => false]);
@@ -148,5 +148,26 @@ class SearchPostServiceTest extends TestCase
                 5,
             ],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function can_get_post(): void
+    {
+        /** @var Post $post */
+        $post = Post::factory()->create();
+
+        /** @var SearchPostService $searchPostService */
+        $searchPostService = app(SearchPostService::class);
+
+        /** @var Post $resultPost */
+        $resultPost = $searchPostService->get($post->id);
+
+        $this->assertEquals($post->id, $resultPost->id);
+        $this->assertEquals($post->title, $resultPost->title);
+        $this->assertEquals($post->contents, $resultPost->contents);
+        $this->assertEquals($post->is_public, $resultPost->is_public);
+        $this->assertEquals(0, $resultPost->views);
     }
 }
