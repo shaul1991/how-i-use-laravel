@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+foreach (glob(base_path('routes/front/*.php')) as $file) {
+    require $file;
+}
