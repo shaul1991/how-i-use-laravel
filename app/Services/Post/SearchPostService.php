@@ -19,16 +19,21 @@ class SearchPostService
 
     public function all(): array|Collection
     {
-        return $this->post->all();
+        return $this->post->latest()->get();
     }
 
     public function getPublic(): Builder|Post
     {
-        return $this->post->public();
+        return $this->post->latest()->public();
     }
 
     public function getPrivate(): Builder|Post
     {
-        return $this->post->private();
+        return $this->post->latest()->private();
+    }
+
+    public function get(int $id): array|Collection|Post|null
+    {
+        return $this->post->findOrFail($id);
     }
 }
