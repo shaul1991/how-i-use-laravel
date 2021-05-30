@@ -6,6 +6,7 @@ namespace Tests\Services\Post;
 
 use App\Models\Post;
 use App\Services\Post\SearchPostService;
+use Exception;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -17,7 +18,7 @@ class SearchPostServiceTest extends TestCase
      * @test
      * @dataProvider allProviderData
      */
-    public function can_view_all_posts(int $postCount): void
+    public function canViewAllPosts(int $postCount): void
     {
         Post::factory()->count($postCount)->create();
 
@@ -57,8 +58,9 @@ class SearchPostServiceTest extends TestCase
     /**
      * @test
      * @dataProvider isPublicPostProviderData
+     * @throws Exception
      */
-    public function can_view_all_published_posts(int $actual, int $expect): void
+    public function canViewAllPublishedPosts(int $actual, int $expect): void
     {
         Post::factory()->count(random_int(0, 10))->create(['is_public' => false]);
         Post::factory()->count($actual)->create(['is_public' => true]);
@@ -105,8 +107,9 @@ class SearchPostServiceTest extends TestCase
     /**
      * @test
      * @dataProvider isPrivatePostProviderData
+     * @throws Exception
      */
-    public function can_view_all_private_posts(int $actual, int $expect): void
+    public function canViewAllPrivatePosts(int $actual, int $expect): void
     {
         Post::factory()->count(random_int(0, 10))->create(['is_public' => true]);
         Post::factory()->count($actual)->create(['is_public' => false]);
