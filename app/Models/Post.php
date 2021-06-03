@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
@@ -22,13 +24,15 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\PostFactory factory(...$parameters)
+ * @method static Builder|Post isPrivate()
+ * @method static Builder|Post isPublic()
  * @method static Builder|Post newModelQuery()
  * @method static Builder|Post newQuery()
  * @method static \Illuminate\Database\Query\Builder|Post onlyTrashed()
- * @method static Builder|Post private()
- * @method static Builder|Post public()
  * @method static Builder|Post query()
  * @method static Builder|Post whereContents($value)
  * @method static Builder|Post whereCreatedAt($value)
@@ -66,13 +70,18 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function scopePublic(Builder $builder): Builder
+    public function scopeIsPublic(Builder $builder): Builder
     {
         return $builder->where('is_public', true);
     }
 
-    public function scopePrivate(Builder $builder): Builder
+    public function scopeIsPrivate(Builder $builder): Builder
     {
         return $builder->where('is_public', false);
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

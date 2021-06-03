@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -16,6 +18,8 @@ use Illuminate\Support\Carbon;
  * @property int $on 태그 사용여부
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Collection|\App\Models\Post[] $posts
+ * @property-read int|null $posts_count
  * @method static \Database\Factories\TagFactory factory(...$parameters)
  * @method static Builder|Tag newModelQuery()
  * @method static Builder|Tag newQuery()
@@ -37,6 +41,11 @@ class Tag extends Model
     ];
 
     protected $attributes = [
-        'on' => true
+        'on' => true,
     ];
+
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class);
+    }
 }

@@ -18,6 +18,6 @@ class PostController extends Controller
 
     public function index(): LengthAwarePaginator
     {
-        return $this->searchPostService->getPublic()->paginate();
+        return $this->searchPostService->getPublic()->with('tags')->paginate();
     }
 }

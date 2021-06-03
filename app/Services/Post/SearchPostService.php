@@ -28,11 +28,11 @@ class SearchPostService
 
     public function getPublic(): Builder|Post
     {
-        return $this->post->public();
+        return $this->post->isPublic();
     }
 
     public function getPrivate(): Builder|Post
     {
-        return $this->post->private();
+        return $this->post->isPrivate();
     }
 }

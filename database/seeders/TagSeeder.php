@@ -10,7 +10,9 @@ class TagSeeder extends Seeder
     public function run(): void
     {
         if (app()->environment() !== 'production') {
-            Tag::factory()->count(100)->create();
+            Tag::factory()
+                ->count(10)
+                ->create();
         }
     }
 }
